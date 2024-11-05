@@ -1,5 +1,5 @@
 /*
- * Device Tree overlay for MPS3520
+ * Device Tree overlay for ILI-9488
  *
  */
 
@@ -24,23 +24,17 @@
 		};
 	};
 
-	fragment@2 {
-		target = <&spidev1>;
-		__overlay__ {
-			status = "disabled";
-		};
-	};
-        fragment@3 {
+        fragment@2 {
                 target = <&gpio>;
                 __overlay__ {
                         pitft_pins: pitft_pins {
-                                brcm,pins = <17 23 24 25>;
-                                brcm,function = <0 1 1 1>; /* out out out */
+                                brcm,pins = <22 23 25>;
+                                brcm,function = <1 1 1>; /* out out out */
                         };
                 };
         };
 
-        fragment@4 {
+        fragment@3 {
                 target = <&spi0>;
                 __overlay__ {
                         /* needed to avoid dtc warning */
@@ -48,7 +42,7 @@
                         #size-cells = <0>;
 
                         pitft: pitft@0{
-                                compatible = "makerlab,sx035hv006";
+                                compatible = "ili9488";
                                 pinctrl-names = "default";
                                 pinctrl-0 = <&pitft_pins>;
 
@@ -56,31 +50,19 @@
                                 spi-max-frequency = <128000000>;
 
                                 rotation = <0>;
-				reset-gpios = <&gpio 25 0>;
-                                dc-gpios = <&gpio 24 0>;
+				reset-gpios = <&gpio 23 0>;
+                                dc-gpios = <&gpio 25 0>;
                                 backlight = <&backlight>;
                         };
-                        /* needed for touchscreen */
-                        pitft_ts: pitft-ts@1 {
-				compatible = "ti,ads7846";
-				reg = <1>;
-
-				spi-max-frequency = <2000000>;
-				interrupts = <17 2>; /* high-to-low edge triggered */
-				interrupt-parent = <&gpio>;
-				pendown-gpio = <&gpio 17 1>;
-				ti,x-plate-ohms = /bits/ 16 <60>;
-				ti,pressure-max = /bits/ 16 <255>;
-			};
                 };
         };
 	
-        fragment@5 {
+        fragment@4 {
 		target-path = "/soc";
 		__overlay__ {
 			backlight: backlight {
 				compatible = "gpio-backlight";
-				gpios = <&gpio 23 0>;
+				gpios = <&gpio 22 0>;
 			};
 		};
 	};

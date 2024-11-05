@@ -2,12 +2,14 @@
 /*
  * DRM driver for Ilitek ILI9488 panels
  *
- * Copyright 2023 VASILY KAPUSTIN <vasilykap@live.com>
+ * Copyright 2024 IHOR NEPOMNIASHCHYI <nepomniashchyi.igor@gmail.com>
  *
  * Based on mi0283qt.c:
  * Copyright 2016 Noralf Trønnes
  * Based on ili9488.c:
  * Copyright 2019 Bird Techstep
+ * Based on ili9488.c:
+ * Copyright 2023 Vasily Kapustin
  */
 
 #include <linux/backlight.h>
@@ -455,13 +457,13 @@ static struct drm_driver ili9488_driver = {
 };
 
 static const struct of_device_id ili9488_of_match[] = {
-	{ .compatible = "makerlab,sx035hv006" },
+	{ .compatible = "ilitek,ili9488" },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, ili9488_of_match);
 
 static const struct spi_device_id ili9488_id[] = {
-	{ "sx035hv006", 0 },
+	{ "ili9488", 0 },
 	{ }
 };
 MODULE_DEVICE_TABLE(spi, ili9488_id);
@@ -545,5 +547,5 @@ static struct spi_driver ili9488_spi_driver = {
 module_spi_driver(ili9488_spi_driver);
 	
 MODULE_DESCRIPTION("Ilitek ILI9488 DRM driver");
-MODULE_AUTHOR("VASILY KAPUSTIN <vasilykap@live.com>");
+MODULE_AUTHOR("IHOR NEPOMNIASHCHYI <nepomniashchyi.igor@gmail.com>");
 MODULE_LICENSE("GPL");
